@@ -1,0 +1,6 @@
+---
+- name: deploy fun java 
+  hosts: web
+  become: true
+  roles:
+    - role: ansible-role-sonarqube 

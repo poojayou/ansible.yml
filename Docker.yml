@@ -1,0 +1,38 @@
+---
+- hosts: web1
+  remote_user: demo-file
+  become: true
+  tasks:
+    - name: install maven
+      yum:
+        pkg: maven
+        state: present     
+
+    - name: install git
+      yum:
+        pkg: git
+        state: present
+
+    - name: install Docker
+      yum:
+        pkg: docker
+        state: present
+    - name: Add Docker repo
+      get_url:
+        url: https://download.docker.com/linux/centos/docker-ce.repo
+        dest: /etc/yum.repos.d/docer-ce.repo
+      become: true
+
+    - name: Start Docker
+      service:
+        name: docker
+        state: started
+      become: true
+      tags: start-docker
+
+    - name: Stop Docker
+      service:
+          name: docker
+          stop: stopped
+      become: true
+
